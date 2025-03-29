@@ -1,8 +1,6 @@
 import java.io.*;
-import java.util.Scanner;
 import java.util.Random;
 import java.util.List;
-import java.util.ArrayList;
 import java.io.BufferedWriter;
 
 
@@ -13,7 +11,8 @@ class DuplicateItemException extends RuntimeException {
 }
 
 class GameMechanics {
-    private BufferedWriter br;
+    private BufferedWriter bw;
+    private BufferedReader br;
     private Random random;
     private List<String> words;
     private List<String> guessedLetters;
@@ -23,29 +22,32 @@ class GameMechanics {
 
 
     }
-    public void addWordsToListAndFile(List<String> wordsToAdd) throws DuplicateItemException {
-        for(String word : wordsToAdd) {
-            if(words.contains(word)) {
-                throw new DuplicateItemException("This word already exists");
-            }
-            else {
-                words.add(word);
-            }
-        }
-        addWordsToFile();
-        words.clear();
-    }
-    public void addWordsToFile() {
+
+    public void loadWordsToList() {
         try {
-            br = new BufferedWriter(new FileWriter(filePath, true));
-            for (String word : words) {
-                br.write(word);
-                br.newLine();
+            br = new BufferedReader(new FileReader(filePath));
+            String line;
+            while((line = br.readLine()) != null) {
+                words.add(line.trim());
             }
         }
         catch(IOException e) {
-            System.out.println("An unexpected error");
+            System.out.println("An unexpected error has been detected with the Word List");
         }
+    }
+    public void addNewWordsToList(List<String> wordsToAdd) throws DuplicateItemException {
+        for(String word : wordsToAdd) {
+            if(!words.contains(word)) {
+                words.add(word);
+            }
+            else {
+                throw new DuplicateItemException(word + " is already in the list, please enter a another word!");
+            }
+        }
+    }
+    public void addNewWordsToFile() {
+        bw = new BufferedWriter(new FileWriter(filePath,true));
+        
     }
 }
 
