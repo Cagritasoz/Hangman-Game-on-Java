@@ -1,8 +1,7 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.List;
+import java.util.*;
 import java.io.BufferedWriter;
+
 
 
 class DuplicateItemException extends RuntimeException {
@@ -11,14 +10,14 @@ class DuplicateItemException extends RuntimeException {
     }
 }
 
-class GameMechanics {
+class GameMechanic {
     private List<String> words;
     private List<String> guessedLetters;
     private final String filePath = "C:/Users/VICTUS/Desktop/Code/JAVA/Test/words.txt";
 
-    public GameMechanics() {
-
-
+    public GameMechanic() {
+        this.words = new ArrayList<>();
+        this.guessedLetters = new ArrayList<>();
     }
 
     public List<String> getCurrentList() { //To get the current List
@@ -35,12 +34,10 @@ class GameMechanics {
         return currentList;
     }
 
-    public void checkNewWords(List<String> wordsToAdd) throws DuplicateItemException { //To check whether the new words that the user want to add has any duplicates
+    public void checkNewWords(List<String> wordsToAdd) { //To check whether the new words that the user want to add has any duplicates
         for (String word : wordsToAdd) {
             if (!words.contains(word)) {
                 words.add(word);
-            } else {
-                throw new DuplicateItemException(word + " is already in the list, please enter a another word!");
             }
         }
     }
@@ -112,4 +109,81 @@ class GameMechanics {
         }
         return sb.toString();
     }
+class GameStart {
+    private GameMechanic gameMechanic = new GameMechanic();
+    private int fails;
+    private List<String> wordsToAdd;
+    public GameStart() {
 }
+
+    public void gameStart() {
+        Scanner scanner = new Scanner(System.in);
+        int gameStartScreenUserNumber;
+        List<String> wordsToAdd = new ArrayList<>();
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("-----------------Welcome to the Java Hangman Game!---------------------");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("Press 1 if you wish to start playing! You can only guess 6 wrong letters before failing!");
+        System.out.println("Press 2 if you wish to add some words to the Word List!");
+        while(true) {
+            try {
+                gameStartScreenUserNumber = scanner.nextInt();
+                scanner.nextLine();
+                if(gameStartScreenUserNumber == 1 || gameStartScreenUserNumber == 2) {
+                    break;
+                }
+                else {
+                    System.out.println("Please enter either 1 or 2");
+                }
+            }
+            catch(InputMismatchException e) {
+                System.out.println("Please enter either 1 or 2");
+                scanner.nextLine();
+            }
+        }
+        if(gameStartScreenUserNumber == 2) {
+            int numberOfWordsToAdd = 0;
+            System.out.println("Please specify how many words you wish to add.");
+            while (true) {
+                try {
+                    numberOfWordsToAdd = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Please enter a number");
+                    scanner.nextLine();
+                }
+            }
+            System.out.println("You can start typing the words now! Duplicate words will be counted as one word!");
+            while (true) {
+                try {
+                    for (int i = 0; i < numberOfWordsToAdd; i++) {
+                        String word = scanner.nextLine();
+                        scanner.nextLine();
+                        if (!wordsToAdd.contains(word)) {
+                            wordsToAdd.add(word);
+                        }
+                    }
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Please enter a word");
+                    scanner.nextLine();
+                }
+            }
+            gameMechanic.checkNewWords(wordsToAdd);
+            gameMechanic.addNewWordsToList();
+        }
+        else if(gameStartScreenUserNumber == 1) {
+
+        }
+
+
+
+
+
+
+
+
+
