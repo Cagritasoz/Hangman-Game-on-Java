@@ -1,5 +1,18 @@
-public class Hangman {
-    public static void main(String[]args) {
-        System.out.println("Testing");
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Random;
+
+class GameMechanics {
+    private Random random;
+    private Set<String> words;
+    private List<String> guessedLetters;
+
+    public GameMechanics() {
+        this.words = new 
     }
+
+
+
 }
