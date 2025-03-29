@@ -12,9 +12,6 @@ class DuplicateItemException extends RuntimeException {
 }
 
 class GameMechanics {
-    private BufferedWriter bw;
-    private BufferedReader br;
-    private Random random;
     private List<String> words;
     private List<String> guessedLetters;
     private final String filePath = "C:/Users/VICTUS/Desktop/Code/JAVA/Test/words.txt";
@@ -27,7 +24,7 @@ class GameMechanics {
     public List<String> getCurrentList() { //To get the current List
         List<String> currentList = new ArrayList<>();
         try {
-            br = new BufferedReader(new FileReader(filePath));
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = br.readLine()) != null) {
                 currentList.add(line.trim());
@@ -51,7 +48,7 @@ class GameMechanics {
     public void addNewWordsToList() { //To add the new words that the user want to add and also checks for duplicates,doesn't add already existing words.
         List<String> currentList = getCurrentList();
         try {
-            bw = new BufferedWriter(new FileWriter(filePath, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true));
             for (String word : words) {
                 if (!currentList.contains(word)) {
                     bw.write(word);
@@ -71,40 +68,48 @@ class GameMechanics {
     }
 
     public String getRandomWord() {
-        random = new Random();
+        Random random = new Random();
         List<String> currentList = getCurrentList();
-        String word = currentList.get(random.nextInt(currentList.size()));
-        return word;
+        return currentList.get(random.nextInt(currentList.size()));
     }
 
     public String[] getRandomWordLetters() {
         String randomWord = getRandomWord();
         String[] letters = new String[randomWord.length()];
         for (int i = 0; i < randomWord.length(); i++) {
-            letters[i] = randomWord.substring(i, i+1);
+            letters[i] = randomWord.substring(i, i + 1);
         }
         return letters;
     }
+
     public void addGuessedLetters(String letter) throws DuplicateItemException {
-        if(!guessedLetters.contains(letter)) {
+        if (!guessedLetters.contains(letter)) {
             guessedLetters.add(letter);
-        }
-        else {
+        } else {
             throw new DuplicateItemException("You have already guessed this letter");
         }
     }
+
     public void printGuessedLetters() {
         System.out.println("Guessed letters are:");
-        for(String letter : guessedLetters) {
+        for (String letter : guessedLetters) {
             System.out.print("  " + letter);
         }
     }
+
     public List<String> getGuessedLetters() {
         return guessedLetters;
     }
-    public void printGuessedWord() {
-        
 
-
+    public String getGuessedWord(String randomWord) {
+        StringBuilder sb = new StringBuilder();
+        for (char letter : randomWord.toCharArray()) {
+            if (guessedLetters.contains(String.valueOf(letter))) {
+                sb.append(letter);
+            } else {
+                sb.append(" _");
+            }
+        }
+        return sb.toString();
     }
 }
