@@ -161,7 +161,6 @@ class GameStart {
                 try {
                     for (int i = 0; i < numberOfWordsToAdd; i++) {
                         String word = scanner.nextLine();
-                        scanner.nextLine();
                         if (!wordsToAdd.contains(word)) {
                             wordsToAdd.add(word);
                         }
