@@ -98,6 +98,16 @@ class WordsSet {
         }
         saveWords();
     }
+
+    public void printAllWords() {
+        for(String word : words) {
+            System.out.println(word);
+        }
+    }
+}
+
+class GameMechanic {
+
 }
 
 
