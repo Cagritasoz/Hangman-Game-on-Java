@@ -99,6 +99,7 @@ class WordsSet {
         }
         saveWords();
     }
+
     public String getRandomWord() {
         Random random = new Random();
         String[] array = words.toArray(new String[0]);
