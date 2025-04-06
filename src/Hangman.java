@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Random;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -98,6 +99,11 @@ class WordsSet {
         }
         saveWords();
     }
+    public String getRandomWord() {
+        Random random = new Random();
+        String[] array = words.toArray(new String[0]);
+        return array[random.nextInt(array.length)];
+    }
 
     public void printAllWords() {
         for(String word : words) {
@@ -106,9 +112,6 @@ class WordsSet {
     }
 }
 
-class GameMechanic {
-
-}
 
 
 
